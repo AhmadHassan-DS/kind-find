@@ -113,7 +113,7 @@ function BrowseFound() {
                     <p>Finding matches...</p>
                   ) : matches.length === 0 ? (
                     <p style={{ color: '#666' }}>
-                      No matching lost items yet. Check back later!
+                      No matches found yet. Check back later!
                     </p>
                   ) : (
                     matches.map((match, index) => (

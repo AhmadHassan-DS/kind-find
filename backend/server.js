@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const MATCH_THRESHOLD = 30; // Minimum match score to be considered a potential match
 
 // Middleware
 app.use(cors());
@@ -121,7 +122,7 @@ app.post('/api/match', (req, res) => {
       itemType === 'lost' ? targetItem : sourceItem
     )
   }))
-  .filter(match => match.score > 30) // Only return matches with score > 30%
+  .filter(match => match.score > MATCH_THRESHOLD) // Only return matches above threshold
   .sort((a, b) => b.score - a.score)
   .slice(0, 10); // Top 10 matches
   
@@ -155,7 +156,7 @@ app.get('/api/match/:itemType/:itemId', (req, res) => {
       itemType === 'lost' ? targetItem : sourceItem
     )
   }))
-  .filter(match => match.score > 30)
+  .filter(match => match.score > MATCH_THRESHOLD)
   .sort((a, b) => b.score - a.score)
   .slice(0, 10);
   
@@ -163,12 +164,14 @@ app.get('/api/match/:itemType/:itemId', (req, res) => {
 });
 
 // Serve static files from React app (for production)
-app.use(express.static(path.join(__dirname, '../frontend/build')));
-
-// Handle React routing, return all requests to React app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-});
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+  
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Kind Find server running on port ${PORT}`);

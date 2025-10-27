@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 
+const INITIAL_FORM_STATE = {
+  itemName: '',
+  category: '',
+  description: '',
+  location: '',
+  color: '',
+  date: '',
+  contactName: '',
+  contactEmail: '',
+  contactPhone: ''
+};
+
 function ReportLost() {
-  const [formData, setFormData] = useState({
-    itemName: '',
-    category: '',
-    description: '',
-    location: '',
-    color: '',
-    date: '',
-    contactName: '',
-    contactEmail: '',
-    contactPhone: ''
-  });
-  
+  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
@@ -36,17 +37,7 @@ function ReportLost() {
       
       if (response.ok) {
         setSubmitted(true);
-        setFormData({
-          itemName: '',
-          category: '',
-          description: '',
-          location: '',
-          color: '',
-          date: '',
-          contactName: '',
-          contactEmail: '',
-          contactPhone: ''
-        });
+        setFormData(INITIAL_FORM_STATE);
         
         setTimeout(() => setSubmitted(false), 5000);
       }
