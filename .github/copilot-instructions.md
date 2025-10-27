@@ -4,7 +4,7 @@ This repository contains the **kind-find** project. These instructions help GitH
 
 ## Project Overview
 
-**kind-find** is a project focused on [the project purpose will be determined as the codebase develops].
+**kind-find** is a project currently in early development. The project purpose and scope will be documented here as the codebase develops.
 
 ## Code Style and Conventions
 
